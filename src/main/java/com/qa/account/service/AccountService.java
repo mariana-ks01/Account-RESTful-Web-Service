@@ -24,17 +24,22 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public Account saveAccount(Account account) throws AccountAlreadyExistsException {
+		
+		Account createdAccount = null;
 		/*
 		 * 1. Check whether account already exists with this number 2. If yes, throw
 		 * AccountAlreadyExistsException 3. If no, save the account object into the
 		 * database 4. Return the saved account
 		 */
 
-		Optional<Account> findByNumber = accRepository.findByAccountNumber(account.getAccountNumber());
-		if (findByNumber.isPresent())
+		Optional<Account> accountByNumber = this.accRepository.findByAccountNumber(account.getAccountNumber());
+		if(accountByNumber != null) {
 			throw new AccountAlreadyExistsException();
-		else
-			return accRepository.save(account);
+		} else {
+		createdAccount = this.accRepository.save(account);
+		}
+		
+		return createdAccount;
 	}
 
 	@Override
