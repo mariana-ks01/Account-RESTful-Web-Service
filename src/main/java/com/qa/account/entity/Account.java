@@ -31,4 +31,10 @@ public class Account {
 	@Column(name = "acc_name")
 	private String name;
 	
+	@Column(name="acc_username")
+	private String username;
+	
+	@Column(name="acc_password")
+	private String password;
+	
 }

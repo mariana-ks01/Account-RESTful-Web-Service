@@ -2,10 +2,13 @@ package com.qa.account.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qa.account.dto.AccountDTO;
 import com.qa.account.entity.Account;
 import com.qa.account.exceptions.AccountAlreadyExistsException;
 import com.qa.account.exceptions.AccountNotFoundException;
@@ -15,6 +18,9 @@ public class AccountService implements IAccountService {
 
 	@Autowired
 	AccountRepository accRepository;
+	
+	@Autowired
+	ModelMapper modelMapper;
 
 	@Override
 	public Account saveAccount(Account account) throws AccountAlreadyExistsException {
@@ -72,5 +78,15 @@ public class AccountService implements IAccountService {
 
 		return status;
 	}
+
+	@Override
+	public List<AccountDTO> findAccountDetailsWithDTO() {
+		return this.accRepository.findAll().stream().map(this::mapToAccountDTO).collect(Collectors.toList());
+	}
+	
+	private AccountDTO mapToAccountDTO(Account account) {
+		return this.modelMapper.map(account, AccountDTO.class);
+	}
+
 
 }

@@ -88,4 +88,9 @@ public class AccountController {
 		return responseEntity;
 	}
 	
+	@GetMapping("/account/dto-details")
+	public ResponseEntity<?> getAccountDTODetails(){
+		return new ResponseEntity<>(accService.findAccountDetailsWithDTO(),HttpStatus.OK);
+	}
+	
 }
